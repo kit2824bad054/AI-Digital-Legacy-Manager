@@ -24,6 +24,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const testRoutes = require('./routes/testRoutes');
+const authRoutes = require('./routes/auth');
 
 // 2. Initialize the Express application
 const app = express();
@@ -80,6 +81,9 @@ app.get('/', (req, res) => {
 // 8. Register API Routes
 // Phase 1: Test & Connectivity route
 app.use('/api/test', testRoutes);
+
+// Phase 2: Authentication routes (signup, login, me)
+app.use('/api/auth', authRoutes);
 
 // (Future phases will mount:
 // app.use('/api/auth', authRoutes);

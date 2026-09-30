@@ -2,30 +2,31 @@
  * ============================================================
  * AI DIGITAL LEGACY MANAGER - ROOT APP COMPONENT (App.jsx)
  * ============================================================
- * Sets up client-side routing with React Router DOM (v6):
- * - Route 1: "/"             -> Home Page (Live Backend Ping & Pillars)
- * - Route 2: "/auth"         -> Login & Signup Page
- * - Route 3: "/dashboard"    -> Dashboard + Digital Will + Future Letters
- * - Route 4: "/vault"        -> Memory Capsule + Secret Vault
- * - Route 5: "/ai-snapshot"  -> AI Personality Snapshot (Gemini 2.5 Flash)
- * - Route 6: "/deployment"   -> Production Deployment Guide & Checklist
- *
- * Rules:
- * - NO Framer Motion used anywhere; styled with pure Tailwind CSS & CSS animations.
- * - Global layout includes persistent Navbar and Footer with dark & mysterious aesthetic.
+ * Features:
+ * - Wrapped with AuthProvider to share JWT session across application
+ * - Public routes: Home ("/"), Login ("/login"), Signup ("/signup"), Deployment ("/deployment")
+ * - Protected routes: Dashboard ("/dashboard"), Secret Vault ("/vault"), AI Snapshot ("/ai-snapshot")
+ * - ProtectedRoute redirects unauthenticated visitors to "/login"
+ * - Persistent Navbar (with live Login/Logout state) & Footer
+ * - Pure CSS animations and zero Framer Motion dependencies
  * ============================================================
  */
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
+// Authentication Provider & Guards
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+
 // Layout Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
-// Page Components
+// Pages
 import HomePage from './pages/HomePage';
-import AuthPage from './pages/AuthPage';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import DashboardPage from './pages/DashboardPage';
 import MemoryVaultPage from './pages/MemoryVaultPage';
 import PersonalitySnapshotPage from './pages/PersonalitySnapshotPage';
@@ -33,41 +34,42 @@ import DeploymentPage from './pages/DeploymentPage';
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen flex flex-col bg-[#0a0a0f] text-[#e2e8f0] relative selection:bg-[#a855f7] selection:text-white">
-        {/* Navigation Header */}
-        <Navbar />
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen flex flex-col bg-[#0a0a0f] text-[#e2e8f0] relative selection:bg-[#a855f7] selection:text-white">
+          {/* Navigation Bar with dynamic auth status */}
+          <Navbar />
 
-        {/* Main Content Area */}
-        <main className="flex-1">
-          <Routes>
-            {/* Page 1: Home Page */}
-            <Route path="/" element={<HomePage />} />
+          {/* Main Routing Container */}
+          <main className="flex-1">
+            <Routes>
+              {/* ================= PUBLIC ROUTES ================= */}
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/deployment" element={<DeploymentPage />} />
+              
+              {/* Redirect legacy /auth route to /login */}
+              <Route path="/auth" element={<Navigate to="/login" replace />} />
 
-            {/* Page 2: Login & Signup */}
-            <Route path="/auth" element={<AuthPage />} />
+              {/* ================= PROTECTED ROUTES ================= */}
+              {/* Requires valid JWT in localStorage. Redirects to /login if missing. */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/vault" element={<MemoryVaultPage />} />
+                <Route path="/ai-snapshot" element={<PersonalitySnapshotPage />} />
+              </Route>
 
-            {/* Page 3: Dashboard + Digital Will + Future Letters */}
-            <Route path="/dashboard" element={<DashboardPage />} />
+              {/* Fallback Catch-All Route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
 
-            {/* Page 4: Memory Capsule + Secret Vault */}
-            <Route path="/vault" element={<MemoryVaultPage />} />
-
-            {/* Page 5: AI Personality Snapshot */}
-            <Route path="/ai-snapshot" element={<PersonalitySnapshotPage />} />
-
-            {/* Page 6: Deployment */}
-            <Route path="/deployment" element={<DeploymentPage />} />
-
-            {/* Fallback: redirect undefined routes back to home */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </main>
-
-        {/* Global Footer */}
-        <Footer />
-      </div>
-    </Router>
+          {/* Footer */}
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
