@@ -32,7 +32,7 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds instead of hanging
     });
 
-    console.log(`\n🔮 [MongoDB Atlas Connected]: ${conn.connection.host}`);
+    console.log(`\n🔮 [MongoDB Connected]: ${conn.connection.host}`);
     console.log(`   Database Name: ${conn.connection.name}\n`);
     return true;
   } catch (error) {

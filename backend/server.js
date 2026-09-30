@@ -25,6 +25,8 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const testRoutes = require('./routes/testRoutes');
 const authRoutes = require('./routes/auth');
+const willRoutes = require('./routes/will');
+const lettersRoutes = require('./routes/letters');
 
 // 2. Initialize the Express application
 const app = express();
@@ -85,10 +87,11 @@ app.use('/api/test', testRoutes);
 // Phase 2: Authentication routes (signup, login, me)
 app.use('/api/auth', authRoutes);
 
+// Phase 3: Digital Will & Future Letters
+app.use('/api/will', willRoutes);
+app.use('/api/letters', lettersRoutes);
+
 // (Future phases will mount:
-// app.use('/api/auth', authRoutes);
-// app.use('/api/will', willRoutes);
-// app.use('/api/letters', lettersRoutes);
 // app.use('/api/vault', vaultRoutes);
 // app.use('/api/ai', aiRoutes); // Gemini 2.5 Flash backend routes
 // )
@@ -122,3 +125,4 @@ app.listen(PORT, () => {
   console.log(`🔒 Mode:              ${process.env.NODE_ENV || 'development'}`);
   console.log(`======================================================\n`);
 });
+
