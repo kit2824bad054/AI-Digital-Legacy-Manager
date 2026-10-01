@@ -86,10 +86,21 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen animate-fade-in">
       {/* Ambient Cosmic Purple Glow Accents */}
       <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#6b21a8]/20 blur-[130px] pointer-events-none rounded-full" />
       <div className="absolute top-96 right-10 w-[450px] h-[450px] bg-[#7c3aed]/10 blur-[120px] pointer-events-none rounded-full" />
+
+      {/* Floating Pure CSS Purple Particle Dots */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <span className="particle-dot w-2 h-2 top-24 left-[10%]" style={{ animationDelay: '0s', animationDuration: '6s' }} />
+        <span className="particle-dot w-1.5 h-1.5 top-64 left-[25%]" style={{ animationDelay: '2s', animationDuration: '8s' }} />
+        <span className="particle-dot w-3 h-3 top-40 right-[15%]" style={{ animationDelay: '1s', animationDuration: '7s' }} />
+        <span className="particle-dot w-2 h-2 top-96 right-[28%]" style={{ animationDelay: '3s', animationDuration: '9s' }} />
+        <span className="particle-dot w-1.5 h-1.5 bottom-80 left-[18%]" style={{ animationDelay: '1.5s', animationDuration: '6.5s' }} />
+        <span className="particle-dot w-2.5 h-2.5 bottom-40 right-[12%]" style={{ animationDelay: '2.5s', animationDuration: '8.5s' }} />
+        <span className="particle-dot w-2 h-2 top-[55%] left-[8%]" style={{ animationDelay: '0.8s', animationDuration: '7.5s' }} />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 relative z-10">
         
@@ -97,10 +108,10 @@ const HomePage = () => {
             HERO SECTION
             ============================================================ */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-6">
-          {/* Phase 1 Status Pill */}
+          {/* Status Pill */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glow-badge text-xs font-semibold text-purple-300 animate-floating">
             <Sparkles className="w-3.5 h-3.5 text-[#a855f7]" />
-            <span>Phase 1 Initialized — Dark Theme & Full-Stack Bridge</span>
+            <span>AI Digital Legacy Guardian • Secure Vault & Personality Matrix Online</span>
           </div>
 
           {/* Main Title with Glowing Mysterious Typography */}

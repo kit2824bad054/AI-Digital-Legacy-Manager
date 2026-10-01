@@ -113,14 +113,14 @@ const Dashboard = () => {
       label: 'Memory Capsule',
       icon: ImageIcon,
       isExternal: true,
-      path: '/vault',
+      path: '/vault?tab=memories',
     },
     {
       id: 'vault',
       label: 'Secret Vault',
       icon: KeyRound,
       isExternal: true,
-      path: '/vault',
+      path: '/vault?tab=vault',
     },
     {
       id: 'ai',

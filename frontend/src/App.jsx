@@ -58,6 +58,7 @@ function App() {
                 <Route path="/dashboard" element={<DashboardPage />} />
                 <Route path="/vault" element={<MemoryVaultPage />} />
                 <Route path="/ai-snapshot" element={<PersonalitySnapshotPage />} />
+                <Route path="/ai-personality" element={<PersonalitySnapshotPage />} />
               </Route>
 
               {/* Fallback Catch-All Route */}

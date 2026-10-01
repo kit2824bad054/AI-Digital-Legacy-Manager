@@ -20,6 +20,7 @@
 // 1. Load environment variables from .env file first
 require('dotenv').config();
 
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -27,6 +28,9 @@ const testRoutes = require('./routes/testRoutes');
 const authRoutes = require('./routes/auth');
 const willRoutes = require('./routes/will');
 const lettersRoutes = require('./routes/letters');
+const memoriesRoutes = require('./routes/memories');
+const vaultRoutes = require('./routes/vault');
+const personalityRoutes = require('./routes/personality');
 
 // 2. Initialize the Express application
 const app = express();
@@ -62,6 +66,9 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Serve static uploaded photos for Memory Capsule
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // 6. Connect to MongoDB Atlas
 connectDB();
 
@@ -91,10 +98,14 @@ app.use('/api/auth', authRoutes);
 app.use('/api/will', willRoutes);
 app.use('/api/letters', lettersRoutes);
 
-// (Future phases will mount:
-// app.use('/api/vault', vaultRoutes);
-// app.use('/api/ai', aiRoutes); // Gemini 2.5 Flash backend routes
-// )
+// Phase 4: Memory Capsule & Secret Vault
+app.use('/api/memories', memoriesRoutes);
+app.use('/api/vault', vaultRoutes);
+
+// Phase 5: AI Personality Snapshot (Google Gemini)
+app.use('/api/personality', personalityRoutes);
+app.use('/api/ai', personalityRoutes);
+
 
 // 9. 404 Route Handler for undefined endpoints
 app.use((req, res, next) => {

@@ -56,29 +56,35 @@ body {
    Glassmorphism & Glow Utility Classes
    ============================================================ */
 @layer components {
-  /* Standard Glassmorphism Card */
+  /* Standard Glassmorphism Card with Purple Glow on Hover */
   .glass-card {
-    background: rgba(19, 19, 31, 0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(168, 85, 247, 0.15);
+    background: rgba(19, 19, 31, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(168, 85, 247, 0.2);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+    transition: all 0.3s ease;
   }
 
-  /* Interactive Hover Card with Glow */
+  .glass-card:hover {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    border-color: rgba(168, 85, 247, 0.4);
+  }
+
+  /* Interactive Hover Card with Enhanced Glow */
   .glass-card-interactive {
-    background: rgba(19, 19, 31, 0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(168, 85, 247, 0.15);
+    background: rgba(19, 19, 31, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(168, 85, 247, 0.2);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.3s ease;
   }
 
   .glass-card-interactive:hover {
-    transform: translateY(-4px);
-    border-color: rgba(168, 85, 247, 0.45);
-    box-shadow: 0 0 25px -4px rgba(124, 58, 237, 0.35), 0 15px 35px -10px rgba(0, 0, 0, 0.8);
+    transform: translateY(-4px) scale(1.01);
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.4), 0 15px 35px -10px rgba(0, 0, 0, 0.8);
     background: rgba(24, 24, 41, 0.85);
   }
 
@@ -117,19 +123,19 @@ body {
     background: radial-gradient(circle 600px at 50% 50%, rgba(124, 58, 237, 0.15), transparent 70%);
   }
 
-  /* Primary Button with Neon Glow */
+  /* Purple Gradient Button Everywhere */
   .btn-primary {
-    background: linear-gradient(135deg, #6b21a8 0%, #7c3aed 100%);
+    background: linear-gradient(135deg, #6b21a8, #a855f7);
     color: #ffffff;
     font-weight: 600;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
     box-shadow: 0 0 20px -3px rgba(124, 58, 237, 0.4);
   }
 
   .btn-primary:hover {
-    background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
-    box-shadow: 0 0 28px 0 rgba(168, 85, 247, 0.6);
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #7c3aed, #c084fc);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
   }
 
   /* Secondary Glass Button */
@@ -137,19 +143,60 @@ body {
     background: rgba(19, 19, 31, 0.8);
     border: 1px solid rgba(168, 85, 247, 0.3);
     color: #e2e8f0;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
   }
 
   .btn-secondary:hover {
     background: rgba(107, 33, 168, 0.2);
     border-color: rgba(168, 85, 247, 0.6);
     color: #ffffff;
+    transform: scale(1.02);
   }
+}
+
+/* Global Form Input Focus Glow */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #a855f7 !important;
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.35) !important;
+  outline: none !important;
+  transition: all 0.3s ease !important;
 }
 
 /* ============================================================
    Pure CSS Animations (No external animation libraries)
    ============================================================ */
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInPage 0.4s ease-out forwards;
+}
+
+@keyframes slideUpToast {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUpToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @keyframes ambientFloat {
   0%, 100% {
     transform: translateY(0px) rotate(0deg);
@@ -170,6 +217,25 @@ body {
   }
 }
 
+@keyframes floatParticle {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-25px) translateX(12px);
+    opacity: 0.7;
+  }
+}
+
+.particle-dot {
+  position: absolute;
+  border-radius: 9999px;
+  background: #a855f7;
+  pointer-events: none;
+  animation: floatParticle 7s infinite ease-in-out;
+}
+
 .animate-halo {
   animation: pulseHalo 5s infinite ease-in-out;
 }
@@ -177,3 +243,4 @@ body {
 .animate-floating {
   animation: ambientFloat 6s infinite ease-in-out;
 }
+
