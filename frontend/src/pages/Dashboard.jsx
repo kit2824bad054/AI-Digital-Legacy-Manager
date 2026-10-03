@@ -306,11 +306,11 @@ const Dashboard = () => {
 
         {/* Tab Switcher Pills (Top of Content) */}
         <div className="px-4 sm:px-8 pt-6">
-          <div className="inline-flex p-1 bg-[#13131f] border border-[#232338] rounded-2xl shadow-inner">
+          <div className="flex flex-col sm:inline-flex sm:flex-row p-1 bg-[#13131f] border border-[#232338] rounded-2xl shadow-inner w-full sm:w-auto gap-1">
             <button
               type="button"
               onClick={() => switchTab('will')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              className={`flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === 'will'
                   ? 'bg-gradient-to-r from-[#6b21a8] to-[#7c3aed] text-white shadow-glow-sm'
                   : 'text-slate-400 hover:text-white'
@@ -322,7 +322,7 @@ const Dashboard = () => {
             <button
               type="button"
               onClick={() => switchTab('letters')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              className={`flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === 'letters'
                   ? 'bg-gradient-to-r from-[#6b21a8] to-[#7c3aed] text-white shadow-glow-sm'
                   : 'text-slate-400 hover:text-white'

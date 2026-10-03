@@ -244,3 +244,58 @@ select:focus {
   animation: ambientFloat 6s infinite ease-in-out;
 }
 
+/* ============================================================
+   Purple Spinning Circle Loader
+   ============================================================ */
+.spinner-purple {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  border: 3px solid rgba(168, 85, 247, 0.2);
+  border-top-color: #a855f7;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   Global Toast Notifications (Bottom Right with Auto-dismiss)
+   ============================================================ */
+.toast-container-bottom-right {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 90vw;
+}
+
+.toast-success {
+  background: rgba(6, 78, 59, 0.95);
+  border: 1px solid rgba(52, 211, 153, 0.7);
+  color: #a7f3d0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.toast-error {
+  background: rgba(136, 19, 55, 0.95);
+  border: 1px solid rgba(251, 113, 133, 0.7);
+  color: #fecdd3;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(244, 63, 94, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+

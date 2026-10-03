@@ -17,6 +17,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../config/api';
 import { User, Mail, Lock, Shield, ArrowRight, AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
 
 const Signup = () => {
@@ -69,7 +70,7 @@ const Signup = () => {
 
     try {
       // 2. Send POST request to backend /api/auth/signup
-      const response = await fetch('/api/auth/signup', {
+      const response = await fetch(apiUrl('/api/auth/signup'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -101,15 +102,34 @@ const Signup = () => {
       console.error('Signup error:', err);
       // Red error message
       setErrorMessage(err.message || 'Network error connecting to backend API.');
+      setTimeout(() => setErrorMessage(''), 3000);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="relative min-h-[85vh] flex items-center justify-center px-4 py-12">
+    <div className="relative min-h-[85vh] flex items-center justify-center px-4 py-12 animate-fade-in">
       {/* Background Deep Purple Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#6b21a8]/20 blur-[140px] pointer-events-none rounded-full" />
+
+      {/* Toast Notification (Bottom Right - Fixed) */}
+      {(errorMessage || successMessage) && (
+        <div
+          className={`fixed bottom-6 right-6 z-50 p-4 rounded-xl border flex items-center gap-3 text-xs font-semibold shadow-2xl backdrop-blur-xl transition-all duration-300 animate-slide-up ${
+            successMessage
+              ? 'bg-emerald-950/90 border-emerald-600/80 text-emerald-200 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
+              : 'bg-rose-950/90 border-rose-600/80 text-rose-200 shadow-[0_0_20px_rgba(244,63,94,0.3)]'
+          }`}
+        >
+          {successMessage ? (
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+          ) : (
+            <AlertCircle className="w-4 h-4 text-rose-400 flex-shrink-0" />
+          )}
+          <span>{successMessage || errorMessage}</span>
+        </div>
+      )}
 
       <div className="w-full max-w-md relative z-10">
         

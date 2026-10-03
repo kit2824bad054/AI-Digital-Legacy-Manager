@@ -14,6 +14,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { apiUrl } from '../config/api';
 import { 
   Shield, 
   FileText, 
@@ -45,8 +46,8 @@ const HomePage = () => {
     const startTime = performance.now();
 
     try {
-      // Uses Vite proxy (/api) or direct configured URL
-      const res = await fetch('/api/test/health');
+      // Uses Vite proxy (/api) or direct configured URL via apiUrl helper
+      const res = await fetch(apiUrl('/api/test/health'));
       if (!res.ok) {
         throw new Error(`Server responded with HTTP status ${res.status}`);
       }
@@ -65,7 +66,7 @@ const HomePage = () => {
   // Test POST echo route to verify bidirectional data transfer
   const sendEchoTest = async () => {
     try {
-      const res = await fetch('/api/test/echo', {
+      const res = await fetch(apiUrl('/api/test/echo'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -386,7 +387,7 @@ const HomePage = () => {
 
           <div className="flex-shrink-0">
             <Link
-              to="/auth"
+              to="/signup"
               className="px-6 py-3 rounded-xl btn-primary text-sm font-semibold inline-flex items-center gap-2"
             >
               <span>Create Your Legacy Now</span>

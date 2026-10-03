@@ -21,6 +21,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl, getUploadUrl } from '../config/api';
 import {
   Image as ImageIcon,
   UploadCloud,
@@ -58,19 +59,19 @@ const MemoryCapsule = () => {
   const [deleteModal, setDeleteModal] = useState({ show: false, memoryId: null, memoryTitle: '' });
   const [deleting, setDeleting] = useState(false);
 
-  // Toast helper
+  // Toast helper (auto-disappears after 3 seconds)
   const showToastMessage = (type, message) => {
     setToast({ show: true, type, message });
     setTimeout(() => {
       setToast({ show: false, type: '', message: '' });
-    }, 4000);
+    }, 3000);
   };
 
   // 1. Fetch memories from backend on mount
   const fetchMemories = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/memories', {
+      const response = await fetch(apiUrl('/api/memories'), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -149,7 +150,7 @@ const MemoryCapsule = () => {
       formData.append('caption', caption.trim());
       formData.append('date', date);
 
-      const response = await fetch('/api/memories', {
+      const response = await fetch(apiUrl('/api/memories'), {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -187,7 +188,7 @@ const MemoryCapsule = () => {
 
     setDeleting(true);
     try {
-      const response = await fetch(`/api/memories/${deleteModal.memoryId}`, {
+      const response = await fetch(apiUrl(`/api/memories/${deleteModal.memoryId}`), {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -212,15 +213,15 @@ const MemoryCapsule = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-fade-in">
       
-      {/* Toast Alert Banner */}
+      {/* Toast Alert Banner (Bottom Right - Fixed) */}
       {toast.show && (
         <div
-          className={`p-4 rounded-xl border flex items-center justify-between text-xs font-medium transition-all duration-300 shadow-glow-sm ${
+          className={`fixed bottom-6 right-6 z-50 p-4 rounded-xl border flex items-center justify-between gap-3 text-xs font-semibold shadow-2xl backdrop-blur-xl transition-all duration-300 animate-slide-up ${
             toast.type === 'success'
-              ? 'bg-emerald-950/80 border-emerald-700/80 text-emerald-200'
-              : 'bg-rose-950/80 border-rose-700/80 text-rose-200'
+              ? 'bg-emerald-950/90 border-emerald-600/80 text-emerald-200 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
+              : 'bg-rose-950/90 border-rose-600/80 text-rose-200 shadow-[0_0_20px_rgba(244,63,94,0.3)]'
           }`}
         >
           <div className="flex items-center gap-2.5">
@@ -233,7 +234,7 @@ const MemoryCapsule = () => {
           </div>
           <button
             onClick={() => setToast({ show: false, type: '', message: '' })}
-            className="text-slate-400 hover:text-white"
+            className="text-slate-400 hover:text-white ml-2 cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -447,7 +448,7 @@ const MemoryCapsule = () => {
                   {/* Image Container with Fullscreen trigger */}
                   <div className="relative aspect-[4/3] bg-[#0a0a0f] overflow-hidden">
                     <img
-                      src={mem.imageUrl}
+                      src={getUploadUrl(mem.imageUrl)}
                       alt={mem.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
                       onClick={() => setLightboxImage(mem)}
@@ -546,7 +547,7 @@ const MemoryCapsule = () => {
             {/* Modal Full Image */}
             <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-[#0a0a0f]">
               <img
-                src={lightboxImage.imageUrl}
+                src={getUploadUrl(lightboxImage.imageUrl)}
                 alt={lightboxImage.title}
                 className="max-h-[65vh] w-auto object-contain rounded-xl shadow-glow-sm"
               />

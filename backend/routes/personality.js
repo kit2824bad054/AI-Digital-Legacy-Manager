@@ -101,27 +101,36 @@ Strict Rules:
 
     let generatedData = null;
 
+    // Call Google Gemini API (Backend Only — keeps API key protected from client)
     if (process.env.GEMINI_API_KEY && !process.env.GEMINI_API_KEY.includes('your_')) {
       try {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        // Primary model: gemini-3.8-flash, with fallback to gemini-3.8-flash-lite
-        let model = genAI.getGenerativeModel({ model: 'gemini-3.8-flash' });
+        // Try production-ready models: gemini-1.5-flash -> gemini-2.0-flash -> gemini-1.5-pro
+        let model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
         let result;
         try {
           result = await model.generateContent(prompt);
         } catch (primaryErr) {
-          console.warn('Primary model busy, attempting flash-lite fallback:', primaryErr.message);
-          model = genAI.getGenerativeModel({ model: 'gemini-3.8-flash-lite' });
-          result = await model.generateContent(prompt);
+          console.warn('⚠️ gemini-1.5-flash unavailable, attempting gemini-2.0-flash:', primaryErr.message);
+          try {
+            model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+            result = await model.generateContent(prompt);
+          } catch (secondaryErr) {
+            console.warn('⚠️ gemini-2.0-flash unavailable, attempting gemini-1.5-pro:', secondaryErr.message);
+            model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+            result = await model.generateContent(prompt);
+          }
         }
 
         const responseText = result.response.text();
         generatedData = parseGeminiJson(responseText);
       } catch (geminiError) {
-        console.warn('Gemini API call encountered an issue, generating fallback:', geminiError.message);
+        console.warn('⚠️ Gemini API call encountered an issue, using graceful fallback:', geminiError.message);
         generatedData = generateFallbackPersonality(answers);
       }
     } else {
+      // Graceful fallback if GEMINI_API_KEY is not yet configured in backend/.env
+      console.log('ℹ️ GEMINI_API_KEY not set in .env. Using synthesized fallback profile.');
       generatedData = generateFallbackPersonality(answers);
     }
 

@@ -61,11 +61,11 @@ const MemoryVaultPage = () => {
         </div>
 
         {/* Tab Switcher Buttons */}
-        <div className="inline-flex p-1 bg-[#13131f] border border-[#232338] rounded-2xl shadow-inner self-start sm:self-auto">
+        <div className="flex flex-col sm:inline-flex sm:flex-row p-1 bg-[#13131f] border border-[#232338] rounded-2xl shadow-inner w-full sm:w-auto gap-1">
           <button
             type="button"
             onClick={() => handleTabChange('vault')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'vault'
                 ? 'bg-gradient-to-r from-[#6b21a8] to-[#7c3aed] text-white shadow-glow-sm'
                 : 'text-slate-400 hover:text-white'
@@ -78,7 +78,7 @@ const MemoryVaultPage = () => {
           <button
             type="button"
             onClick={() => handleTabChange('memories')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               activeTab === 'memories'
                 ? 'bg-gradient-to-r from-[#6b21a8] to-[#7c3aed] text-white shadow-glow-sm'
                 : 'text-slate-400 hover:text-white'

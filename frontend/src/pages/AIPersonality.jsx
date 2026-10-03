@@ -26,6 +26,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { apiUrl } from '../config/api';
 import {
   Sparkles,
   Bot,
@@ -88,7 +89,7 @@ const AIPersonality = () => {
     const fetchExistingPersonality = async () => {
       setLoadingInitial(true);
       try {
-        const response = await fetch('/api/personality', {
+        const response = await fetch(apiUrl('/api/personality'), {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -159,7 +160,7 @@ const AIPersonality = () => {
         answer: answers[idx] || '(Not answered)',
       }));
 
-      const response = await fetch('/api/personality/generate', {
+      const response = await fetch(apiUrl('/api/personality/generate'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -196,7 +197,7 @@ const AIPersonality = () => {
         answer: answers[idx] || '',
       }));
 
-      const response = await fetch('/api/personality', {
+      const response = await fetch(apiUrl('/api/personality'), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -554,7 +555,7 @@ const AIPersonality = () => {
                 className="px-6 py-2.5 rounded-xl btn-primary text-xs font-bold flex items-center gap-2 shadow-glow-sm cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-purple-200" />
-                <span>Synthesize with Gemini AI</span>
+                <span>Submit & Synthesize Personality</span>
               </button>
             )}
           </div>
